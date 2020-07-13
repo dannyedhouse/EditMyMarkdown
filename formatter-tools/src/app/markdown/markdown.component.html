@@ -1,0 +1,29 @@
+<div class="custom-container">
+
+  <div class="toolbar">
+    <ul *ngFor="let tool of tools">
+      <li><i class="{{tool.icon}}" title="{{tool.type}}" (click)="bold()"></i></li>
+    </ul>
+    <span class="divider"></span>
+    <ul>
+      <li>H1</li>
+      <li>H2</li>
+      <li>H3</li>
+      <li>H4</li>
+      <li>H5</li>
+      <li>H6</li>
+    </ul>
+    <span class="divider"></span>
+  </div>
+  
+  <div class="codemirror">
+    <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
+      lineNumbers: true,
+      lineWrapping: true,
+      theme: 'ambiance',
+      mode: 'markdown'}">
+    </ngx-codemirror>
+  </div>
+  <div class="preview">
+  </div>
+</div>

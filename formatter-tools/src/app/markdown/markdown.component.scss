@@ -1,0 +1,50 @@
+.custom-container {
+    background-color: white;
+    margin: 0 auto;
+}
+
+.toolbar {
+    width: 100%;
+    padding-top: 10px;
+    background-color: #222;
+    display: block;
+    color: #b9b9b9;
+}
+
+.toolbar ul {
+    padding-inline-start: 15px;
+    list-style: none;
+    display: inline-block;
+}
+
+.toolbar li {
+    cursor: pointer;
+    padding: 3px 5px 3px 5px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.toolbar li:hover {
+    color: white;
+    background-color: #424242;
+}
+
+.codemirror {
+    float: left;
+    overflow-y: scroll;
+    width: 50%;
+    height: 100% !important;
+}
+
+
+
+.preview {
+    float: right;
+    width: 50%;
+}
+
+.divider {
+    border-right: 1px solid #b9b9b9;
+    height: 100%;
+    margin: 0 -5px 0px 10px;
+}

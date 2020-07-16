@@ -2,16 +2,16 @@
 
   <div class="toolbar">
     <ul *ngFor="let tool of tools">
-      <li><i class="{{tool.icon}}" title="{{tool.type}}" (click)="bold()"></i></li>
+      <li><i class="{{tool.icon}}" title="{{tool.type}}"></i></li>
     </ul>
     <span class="divider"></span>
     <ul>
-      <li>H1</li>
-      <li>H2</li>
-      <li>H3</li>
-      <li>H4</li>
-      <li>H5</li>
-      <li>H6</li>
+      <li title="Heading 1">H1</li>
+      <li title="Heading 2">H2</li>
+      <li title="Heading 3">H3</li>
+      <li title="Heading 4">H4</li>
+      <li title="Heading 5">H5</li>
+      <li title="Heading 6">H6</li>
     </ul>
     <span class="divider"></span>
   </div>
@@ -21,9 +21,9 @@
       lineNumbers: true,
       lineWrapping: true,
       theme: 'ambiance',
-      mode: 'markdown'}">
+      mode: 'markdown'}" [autoFocus]=true (change)="updatePreview()" (cursorActivity)="updatePreview()">
     </ngx-codemirror>
   </div>
-  <div class="preview">
+  <div class="preview" #preview>
   </div>
 </div>

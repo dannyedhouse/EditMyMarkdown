@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, SecurityContext, SimpleChanges} from '@angular/core';
+import { DomSanitizer} from '@angular/platform-browser';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
+import marked from 'marked';
 
 @Component({
   selector: 'app-markdown',
@@ -8,12 +10,11 @@ import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 })
 export class MarkdownComponent implements OnInit {
   @ViewChild('codeEditor', { static: false }) codeEditor: CodemirrorComponent;
+  @ViewChild('preview', {static: true}) preview: ElementRef;
 
   tools: tools[];
 
-  constructor() { 
-    
-  }
+  constructor(private elementRef: ElementRef, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.tools = [
@@ -28,21 +29,27 @@ export class MarkdownComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.runQuery());
+    setTimeout(() => this.setPreview());
   }
 
-  runQuery() {
+  updatePreview() {
     const editor = this.codeEditor.codeMirror;
+    var md = marked.setOptions({gfm: true, breaks: true, smartyLists: true, smartpants: true, xhtml: true});
+    this.preview.nativeElement.innerHTML = md.parse(editor.getValue());
+  }
 
+  /**
+   * Sets the HTML preview to the rendered default source_code
+   */
+  private setPreview() {
+    const editor = this.codeEditor.codeMirror;
     editor.setSize("100%", "100%");
+    var md = marked.setOptions({});
+    this.preview.nativeElement.innerHTML = md.parse(editor.getValue());
   }
 
   source_code = "# Formatter Tools - Markdown\n----\n1. Click me and edit the markdown.\n2. See rendered HTML!\n----\nReference:"
-    +"\n#H1\n#H2\n#H3\n#H4\n#H5\n#H6\n\n**strong**\n*emphasis*\n"
-
-  private bold() {
-    console.log("test");
-  }
+    +"\n#H1\n##H2\n###H3\n####H4\n#####H5\n######H6\n\n**strong**\n*emphasis*\n"
 }
 
 export interface tools {

@@ -2,7 +2,7 @@
 
   <div class="toolbar">
     <ul *ngFor="let tool of tools">
-      <li><i class="{{tool.icon}}" title="{{tool.type}}"></i></li>
+      <li title="{{tool.type}}" (click)="callFunction(tool.type)"><i class="{{tool.icon}}"></i></li>
     </ul>
     <span class="divider"></span>
     <ul>

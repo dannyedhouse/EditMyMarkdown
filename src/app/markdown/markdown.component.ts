@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, SecurityContext, SimpleChanges} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, SecurityContext} from '@angular/core';
 import { DomSanitizer} from '@angular/platform-browser';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import marked from 'marked';
@@ -13,6 +13,7 @@ export class MarkdownComponent implements OnInit {
   @ViewChild('preview', {static: true}) preview: ElementRef;
 
   tools: tools[];
+  editor;
 
   constructor(private elementRef: ElementRef, private sanitizer: DomSanitizer) {}
 
@@ -32,6 +33,20 @@ export class MarkdownComponent implements OnInit {
     setTimeout(() => this.setPreview());
   }
 
+  /**
+   * Return the function for the tool type clicked
+   * @param toolName Name of the tool which matches lowercase function
+   */
+  callFunction(toolName: string) {  
+    var functionName = toolName.toLowerCase();
+    if (this[functionName]) {
+      return this[functionName]();
+    }
+  }
+
+  /**
+   * Update the preview when there is a change in the codemirror
+   */
   updatePreview() {
     const editor = this.codeEditor.codeMirror;
     var md = marked.setOptions({gfm: true, breaks: true, smartyLists: true, smartpants: true, xhtml: true});
@@ -42,10 +57,35 @@ export class MarkdownComponent implements OnInit {
    * Sets the HTML preview to the rendered default source_code
    */
   private setPreview() {
-    const editor = this.codeEditor.codeMirror;
-    editor.setSize("100%", "100%");
+    this.editor = this.codeEditor.codeMirror;
+    this.editor.setSize("100%", "100%");
     var md = marked.setOptions({});
-    this.preview.nativeElement.innerHTML = md.parse(editor.getValue());
+    this.preview.nativeElement.innerHTML = md.parse(this.editor.getValue());
+  }
+
+  undo() {
+    this.editor.undo();
+  }
+
+  redo() {
+    this.editor.redo();
+  }
+
+  bold() {
+    var selection = this.editor.getSelection();
+    var cursor = this.editor.getCursor();
+    var line = this.editor.getLine(cursor.line);
+    var pos = cursor.ch;
+    var length = selection.length;
+
+    if (selection == "") {      
+      this.editor.setCursor(cursor.line, cursor.ch+2);
+      this.editor.replaceSelection("**Bold**");
+    } else if (line.charAt(pos) == "*" && line.charAt(pos+1) == "*" && line.charAt(pos-length-1) == "*" && line.charAt(pos-length-2) == "*") {
+      this.editor.replaceRange(selection, {line: cursor.line, ch: pos-length-2}, {line: cursor.line, ch: pos+2});
+    } else {
+      this.editor.replaceSelection("**" + selection + "**");
+    }
   }
 
   source_code = "# Formatter Tools - Markdown\n----\n1. Click me and edit the markdown.\n2. See rendered HTML!\n----\nReference:"

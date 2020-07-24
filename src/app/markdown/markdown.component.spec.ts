@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MarkdownComponent } from './markdown.component';
+import { AppService } from '../app.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('MarkdownComponent', () => {
   let component: MarkdownComponent;
@@ -8,6 +9,8 @@ describe('MarkdownComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientModule ],
+      providers: [AppService],
       declarations: [ MarkdownComponent ]
     })
     .compileComponents();
@@ -17,9 +20,5 @@ describe('MarkdownComponent', () => {
     fixture = TestBed.createComponent(MarkdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 });

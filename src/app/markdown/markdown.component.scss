@@ -46,3 +46,47 @@
     height: 100%;
     margin: 0 -5px 0px 10px;
 }
+
+.emojis {
+    text-align: center;
+}
+
+.emoji_list {
+    padding-inline-start: 0;
+    display: inline;
+    list-style: none;
+}
+
+.emoji_list li {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    padding: 10px;
+    display: inline-block;
+}
+
+.emoji_list li:hover {
+    background-color: #e2e6ea;
+}
+
+.emoji_list img {
+    width: 32px;
+    height: 32px;
+}
+
+a {
+    color: #0153a5;
+}
+
+.emoji_list li.active {
+    background-color: #ccc;
+}
+
+@media (max-width: 660px) {
+    .codemirror {
+        width: 100%;
+    }
+    
+    .preview {
+        display: none;
+    }
+}

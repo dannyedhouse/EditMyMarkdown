@@ -8,22 +8,45 @@ import { MarkdownComponent } from './markdown/markdown.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { SanitizeHtmlPipe } from './sanitize-html.pipe';
+import { FilterPipe } from './filter.pipe';
+import { AppService } from './app.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     MarkdownComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SanitizeHtmlPipe,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    CodemirrorModule
+    CodemirrorModule,
+    HttpClientModule,
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          breaks: true,
+          pedantic: false,
+          smartLists: true,
+          smartypants: false
+        },
+    }})
   ],
-  providers: [],
+  exports: [
+    HeaderComponent,
+    FooterComponent
+  ],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

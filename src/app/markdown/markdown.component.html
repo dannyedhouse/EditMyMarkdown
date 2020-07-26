@@ -1,19 +1,9 @@
 <div class="custom-container">
   <div class="toolbar">
-    <ul *ngFor="let tool of tools">
+    <ul *ngFor="let tool of tools" class={{tool.type}}>
       <li title="{{tool.type}}" (click)="callFunction(tool.type)"><i class="{{tool.icon}}"></i></li>
       <span *ngIf="tool.break === true" class="divider"></span>
     </ul>
-    <span class="divider"></span>
-    <ul>
-      <li title="Heading 1">H1</li>
-      <li title="Heading 2">H2</li>
-      <li title="Heading 3">H3</li>
-      <li title="Heading 4">H4</li>
-      <li title="Heading 5">H5</li>
-      <li title="Heading 6">H6</li>
-    </ul>
-    <span class="divider"></span>
     <ul>
       <li title="Help" (click)="helpModal()"><i class="fas fa-question"></i></li>
     </ul>

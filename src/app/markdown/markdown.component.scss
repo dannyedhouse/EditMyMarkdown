@@ -81,6 +81,41 @@ a {
     background-color: #ccc;
 }
 
+.heading-icon {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 900;
+    font-family: 'Lato', sans-serif;;
+}
+
+.heading-icon, .h1:before {
+    content: "H1";
+}
+
+.heading-icon, .h2:before {
+    content: "H2";
+}
+
+.heading-icon, .h3:before {
+    content: "H3";
+}
+
+.heading-icon, .h4:before {
+    content: "H4";
+}
+
+.heading-icon, .h5:before {
+    content: "H5";
+}
+
+.heading-icon, .h6:before {
+    content: "H6";
+}
+
+ul.H2,.H3,.H4,.H5,.H6 {
+    padding-inline-start: 5px !important;
+}
+
 @media (max-width: 660px) {
     .codemirror {
         width: 100%;

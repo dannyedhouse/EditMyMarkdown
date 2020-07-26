@@ -35,7 +35,13 @@ export class MarkdownComponent implements OnInit {
       { type: "Italic", icon: "fas fa-italic", break: false},
       { type: "Strikethrough", icon: "fas fa-strikethrough", break: false},
       { type: "Quote", icon: "fas fa-quote-left", break: false},
-      { type: "Emoji", icon: "fas fa-laugh", break: false}
+      { type: "H1", icon: "heading-icon h1", break: false},
+      { type: "H2", icon: "heading-icon h2", break: false},
+      { type: "H3", icon: "heading-icon h3", break: false},
+      { type: "H4", icon: "heading-icon h4", break: false},
+      { type: "H5", icon: "heading-icon h5", break: false},
+      { type: "H6", icon: "heading-icon h6", break: true},
+      { type: "Emoji", icon: "fas fa-laugh", break: false},
     ];
     this.getEmojisFromService();
   }
@@ -61,7 +67,10 @@ export class MarkdownComponent implements OnInit {
    */
   callFunction(toolName: string) {  
     var functionName = toolName.toLowerCase();
-    if (this[functionName]) {
+    if(functionName == "h1" || functionName == "h2" || functionName == "h3" || functionName == "h4" || functionName == "h5" || functionName == "h6") {
+      var headingNum = parseInt(functionName.charAt(1));
+      return this["heading"](headingNum);
+    } else if (this[functionName]) {
       return this[functionName]();
     }
   }
@@ -102,6 +111,8 @@ export class MarkdownComponent implements OnInit {
       this.editor.replaceSelection("**Bold**");
     } else if (this.line.charAt(this.pos) == "*" && this.line.charAt(this.pos+1) == "*" && this.line.charAt(this.pos-this.length-1) == "*" && this.line.charAt(this.pos-this.length-2) == "*") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-2}, {line: this.cursor.line, ch: this.pos+2});
+    } else if (this.line.charAt(this.pos-1) == "*" && this.line.charAt(this.pos-2) == "*" && this.line.charAt(this.pos+this.length) == "*" && this.line.charAt(this.pos+this.length+1) == "*") {
+      this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos+this.length+2}, {line: this.cursor.line, ch: this.pos-2});
     } else {
       this.editor.replaceSelection("**" + this.selection + "**");
     }
@@ -113,6 +124,8 @@ export class MarkdownComponent implements OnInit {
       this.editor.replaceSelection("*Italic*");
     } else if (this.line.charAt(this.pos) == "*" && this.line.charAt(this.pos-this.length-1) == "*") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-1}, {line: this.cursor.line, ch: this.pos+1});
+    } else if (this.line.charAt(this.pos-1) == "*" && this.line.charAt(this.pos+this.length) == "*") {
+      this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos+this.length+1}, {line: this.cursor.line, ch: this.pos-1});
     } else {
       this.editor.replaceSelection("*" + this.selection + "*");
     }
@@ -124,6 +137,8 @@ export class MarkdownComponent implements OnInit {
       this.editor.replaceSelection("~~Strikethrough~~");
     } else if (this.line.charAt(this.pos) == "~" && this.line.charAt(this.pos+1) == "~" && this.line.charAt(this.pos-this.length-1) == "~" && this.line.charAt(this.pos-this.length-2) == "~") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-2}, {line: this.cursor.line, ch: this.pos+2});
+    } else if (this.line.charAt(this.pos-1) == "~" && this.line.charAt(this.pos-2) == "~" && this.line.charAt(this.pos+this.length) == "~" && this.line.charAt(this.pos+this.length+1) == "~") {
+      this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos+this.length+2}, {line: this.cursor.line, ch: this.pos-2});
     } else {
       this.editor.replaceSelection("~~" + this.selection + "~~");
     }
@@ -135,8 +150,21 @@ export class MarkdownComponent implements OnInit {
       this.editor.replaceSelection(">Quote");
     } else if (this.line.charAt(this.pos-this.length-1) == ">") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-1}, {line: this.cursor.line, ch: this.pos+1});
+    } else if (this.line.charAt(this.pos-1) == ">") {
+      this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos+this.length}, {line: this.cursor.line, ch: this.pos-1});
     } else {
       this.editor.replaceSelection(">" + this.selection);
+    }
+  }
+
+  heading(n: number): void {
+    var hashtag = "#".repeat(n);
+
+    if (this.selection == "") {      
+      this.editor.setCursor(this.cursor.line, this.cursor.ch+2);
+      this.editor.replaceSelection(hashtag + " H" + n.toString());
+    } else {
+      this.editor.replaceSelection(hashtag + " " + this.selection);
     }
   }
 
@@ -193,5 +221,5 @@ export class MarkdownComponent implements OnInit {
 export interface tools {
   type: string;
   icon: string;
-  break: boolean;
+  break: boolean; // Divider
 }

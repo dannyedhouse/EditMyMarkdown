@@ -1,18 +1,15 @@
-import { AppPage } from './app.po';
+import { MarkdownPage } from './markdown.po';
 import { browser, logging } from 'protractor';
+import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 
-describe('workspace-project App', () => {
-  let page: AppPage;
+describe('Markdown Page', () => {
+  let page: MarkdownPage;
 
   beforeEach(() => {
-    page = new AppPage();
-  });
-
-  it('should display welcome message', () => {
+    page = new MarkdownPage();
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('formatter-tools app is running!');
   });
-
+  
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);

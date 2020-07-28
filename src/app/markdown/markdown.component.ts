@@ -24,6 +24,7 @@ export class MarkdownComponent implements OnInit {
   line: string;
   pos: number;
   length: number;
+  ul: boolean = true;
 
   constructor(private modalService: NgbModal, private service: AppService) {}
 
@@ -35,6 +36,9 @@ export class MarkdownComponent implements OnInit {
       { type: "Italic", icon: "fas fa-italic", break: false},
       { type: "Strikethrough", icon: "fas fa-strikethrough", break: false},
       { type: "Quote", icon: "fas fa-quote-left", break: false},
+      { type: "Unordered List", icon: "fas fa-list-ul", break: false},
+      { type: "Ordered List", icon: "fas fa-list-ol", break: false},
+      { type: "Horizontal Rule", icon: "fas fa-minus", break: true},
       { type: "H1", icon: "heading-icon h1", break: false},
       { type: "H2", icon: "heading-icon h2", break: false},
       { type: "H3", icon: "heading-icon h3", break: false},
@@ -67,6 +71,7 @@ export class MarkdownComponent implements OnInit {
    */
   callFunction(toolName: string) {  
     var functionName = toolName.toLowerCase();
+    var functionName = functionName.replace(/ /g,"_");
     if(functionName == "h1" || functionName == "h2" || functionName == "h3" || functionName == "h4" || functionName == "h5" || functionName == "h6") {
       var headingNum = parseInt(functionName.charAt(1));
       return this["heading"](headingNum);
@@ -80,6 +85,7 @@ export class MarkdownComponent implements OnInit {
    */
   updatePreview(): void {
     const editor = this.codeEditor.codeMirror;
+    editor.focus();
     this.preview = editor.getValue();
     this.selection = editor.getSelection();
     this.cursor = editor.getCursor();
@@ -94,7 +100,9 @@ export class MarkdownComponent implements OnInit {
   private setPreview(): void {
     this.editor = this.codeEditor.codeMirror;
     this.editor.setSize("100%", "100%");
+    this.editor.focus();
     this.preview = this.editor.getValue();
+    
   }
 
   undo(): void {
@@ -106,9 +114,9 @@ export class MarkdownComponent implements OnInit {
   }
 
   bold(): void {
-    if (this.selection == "") {      
-      this.editor.setCursor(this.cursor.line, this.cursor.ch+2);
+    if (this.selection == "") {   
       this.editor.replaceSelection("**Bold**");
+      this.editor.setSelection({line: this.cursor.line, ch: this.cursor.ch-6}, {line: this.cursor.line, ch: this.cursor.ch-2});
     } else if (this.line.charAt(this.pos) == "*" && this.line.charAt(this.pos+1) == "*" && this.line.charAt(this.pos-this.length-1) == "*" && this.line.charAt(this.pos-this.length-2) == "*") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-2}, {line: this.cursor.line, ch: this.pos+2});
     } else if (this.line.charAt(this.pos-1) == "*" && this.line.charAt(this.pos-2) == "*" && this.line.charAt(this.pos+this.length) == "*" && this.line.charAt(this.pos+this.length+1) == "*") {
@@ -120,8 +128,8 @@ export class MarkdownComponent implements OnInit {
 
   italic(): void {
     if (this.selection == "") {      
-      this.editor.setCursor(this.cursor.line, this.cursor.ch+2);
       this.editor.replaceSelection("*Italic*");
+      this.editor.setSelection({line: this.cursor.line, ch: this.cursor.ch-7}, {line: this.cursor.line, ch: this.cursor.ch-1});
     } else if (this.line.charAt(this.pos) == "*" && this.line.charAt(this.pos-this.length-1) == "*") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-1}, {line: this.cursor.line, ch: this.pos+1});
     } else if (this.line.charAt(this.pos-1) == "*" && this.line.charAt(this.pos+this.length) == "*") {
@@ -133,8 +141,8 @@ export class MarkdownComponent implements OnInit {
 
   strikethrough(): void {
     if (this.selection == "") {      
-      this.editor.setCursor(this.cursor.line, this.cursor.ch+2);
       this.editor.replaceSelection("~~Strikethrough~~");
+      this.editor.setSelection({line: this.cursor.line, ch: this.cursor.ch-15}, {line: this.cursor.line, ch: this.cursor.ch-2});
     } else if (this.line.charAt(this.pos) == "~" && this.line.charAt(this.pos+1) == "~" && this.line.charAt(this.pos-this.length-1) == "~" && this.line.charAt(this.pos-this.length-2) == "~") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-2}, {line: this.cursor.line, ch: this.pos+2});
     } else if (this.line.charAt(this.pos-1) == "~" && this.line.charAt(this.pos-2) == "~" && this.line.charAt(this.pos+this.length) == "~" && this.line.charAt(this.pos+this.length+1) == "~") {
@@ -146,14 +154,23 @@ export class MarkdownComponent implements OnInit {
   
   quote(): void {
     if (this.selection == "") {      
-      this.editor.setCursor(this.cursor.line, this.cursor.ch+2);
       this.editor.replaceSelection(">Quote");
+      this.editor.setSelection({line: this.cursor.line, ch: this.cursor.ch-5}, {line: this.cursor.line, ch: this.cursor.ch});
     } else if (this.line.charAt(this.pos-this.length-1) == ">") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-1}, {line: this.cursor.line, ch: this.pos+1});
     } else if (this.line.charAt(this.pos-1) == ">") {
       this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos+this.length}, {line: this.cursor.line, ch: this.pos-1});
     } else {
       this.editor.replaceSelection(">" + this.selection);
+    }
+  }
+
+  unordered_list(): void {
+    if (this.selection == "") {      
+      this.editor.setCursor(this.cursor.line, this.cursor.ch + 2);
+      this.editor.replaceSelection("- ");
+    } else {
+      this.editor.replaceSelection("- " + this.selection);
     }
   }
 

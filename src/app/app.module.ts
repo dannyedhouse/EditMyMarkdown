@@ -38,7 +38,7 @@ import { AppService } from './app.service';
           breaks: true,
           pedantic: false,
           smartLists: true,
-          smartypants: true
+          smartyPants: true,
         },
     }})
   ],

@@ -11,6 +11,7 @@
   
   <div class="codemirror">
     <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
+      autoFocus: true,
       lineNumbers: true,
       lineWrapping: true,
       theme: 'ambiance',

@@ -26,6 +26,21 @@ export class MarkdownComponent implements OnInit {
   length: number;
   ul: boolean = false;
   ol: boolean = false;
+  count: number = 1;
+
+  /**
+   * Map keys to functions
+   */
+  extraKeys = {
+    Enter: () => this.enterKey(),
+    "Ctrl-B": () => this.bold(),
+    "Ctrl-I": () => this.italic(),
+    "Shift-Ctrl-S": () => this.strikethrough(),
+    "Ctrl-Q": () => this.quote(),
+    "Shift-Ctrl-O": () => this.unordered_list(),
+    "Shift-Ctrl-U": () => this.ordered_list(),
+    "Shift-Ctrl--": () => this.horizontal_rule(),
+  }
 
   constructor(private modalService: NgbModal, private service: AppService) {}
 
@@ -92,17 +107,17 @@ export class MarkdownComponent implements OnInit {
     this.line = editor.getLine(this.cursor.line);
     this.pos = this.cursor.ch;
     this.length = this.selection.length;
-    var ul = this.ul;
-    
-    editor.setOption("extraKeys", {
-      Enter: function(editor) { 
-        if (ul == true) {
-          editor.replaceSelection("\n- ");
-        } else {
-          editor.replaceSelection("\n");
-        }
-      },
-    });
+  }
+ 
+  private enterKey() {
+    if (this.ul == true && this.ul !==null) {
+      this.editor.replaceSelection("\n- ");
+    } else if (this.ol == true && this.ol !==null) {
+      this.count++;
+      this.editor.replaceSelection("\n"+this.count+". ");
+    } else {
+      this.editor.replaceSelection("\n");
+    }
   }
 
   /**
@@ -113,7 +128,6 @@ export class MarkdownComponent implements OnInit {
     this.editor.setSize("100%", "100%");
     this.editor.focus();
     this.preview = this.editor.getValue();
-    
   }
 
   undo(): void {
@@ -185,6 +199,19 @@ export class MarkdownComponent implements OnInit {
       this.editor.setCursor(this.cursor.line, this.cursor.ch + 2);
     } else {
       this.editor.replaceSelection("- " + this.selection);
+    }
+  }
+
+  ordered_list(): void {
+    this.ol = !this.ol;
+    this.count = 1;
+    if (this.selection == "") {      
+      if (this.ol) {
+        this.editor.replaceSelection("1. ");
+      }
+      this.editor.setCursor(this.cursor.line, this.cursor.ch + 2);
+    } else {
+      this.editor.replaceSelection("1. " + this.selection);
     }
   }
 

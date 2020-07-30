@@ -26,7 +26,12 @@
     display: inline-block;
 }
 
-li.ul.ul-active, ol.ol-active{
+li.ul.ul-active {
+    background-color: #424242;
+    color: white;
+}
+
+li.ol.ol-active {
     background-color: #424242;
     color: white;
 }

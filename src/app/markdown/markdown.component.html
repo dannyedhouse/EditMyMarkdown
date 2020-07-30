@@ -14,6 +14,7 @@
   
   <div class="codemirror">
     <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
+      extraKeys: extraKeys,
       autoFocus: true,
       lineNumbers: true,
       lineWrapping: true,

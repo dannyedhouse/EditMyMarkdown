@@ -1,8 +1,11 @@
 <div class="custom-container">
   <div class="toolbar">
     <ul *ngFor="let tool of tools" class={{tool.type}}>
-      <li title="{{tool.type}}" (click)="callFunction(tool.type)"><i class="{{tool.icon}}"></i></li>
-      <span *ngIf="tool.break === true" class="divider"></span>
+      <li title="{{tool.type}}" (click)="callFunction(tool.type)" [ngClass]="{'ul': tool.type==='Unordered List', 'ul-active': ul===true,
+        'ol': tool.type==='Ordered List', 'ol-active': ol===true}">
+        <i class="{{tool.icon}}"></i>
+      </li>
+      <span *ngIf="tool.break" class="divider"></span>
     </ul>
     <ul>
       <li title="Help" (click)="helpModal()"><i class="fas fa-question"></i></li>
@@ -29,9 +32,11 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="search-emoji">
     <input type="text" class="form-control" [(ngModel)]="query" placeholder="Type to search...">
     <hr>
+  </div>
+  <div class="modal-body" id="emoji-body">
     <div class="emojis">
       <ul class="emoji_list">
         <li *ngFor="let emoji of emojis | filter:'name, url':query" (click)="selectEmoji(emoji)" [ngClass]="{'active': emoji.active}">
@@ -44,7 +49,9 @@
     <button type="button" class="btn btn-dark" (click)="insertEmoji()">Insert</button>
     <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Close</button>
   </div>
+ 
 </ng-template>
+
 
 <!--Help Modal-->
 <ng-template #help let-modal>

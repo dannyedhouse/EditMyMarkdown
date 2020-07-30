@@ -24,7 +24,8 @@ export class MarkdownComponent implements OnInit {
   line: string;
   pos: number;
   length: number;
-  ul: boolean = true;
+  ul: boolean = false;
+  ol: boolean = false;
 
   constructor(private modalService: NgbModal, private service: AppService) {}
 
@@ -70,8 +71,7 @@ export class MarkdownComponent implements OnInit {
    * @param toolName Name of the tool which matches lowercase function
    */
   callFunction(toolName: string) {  
-    var functionName = toolName.toLowerCase();
-    var functionName = functionName.replace(/ /g,"_");
+    var functionName = toolName.toLowerCase().replace(/ /g,"_");
     if(functionName == "h1" || functionName == "h2" || functionName == "h3" || functionName == "h4" || functionName == "h5" || functionName == "h6") {
       var headingNum = parseInt(functionName.charAt(1));
       return this["heading"](headingNum);
@@ -92,6 +92,17 @@ export class MarkdownComponent implements OnInit {
     this.line = editor.getLine(this.cursor.line);
     this.pos = this.cursor.ch;
     this.length = this.selection.length;
+    var ul = this.ul;
+    
+    editor.setOption("extraKeys", {
+      Enter: function(editor) { 
+        if (ul == true) {
+          editor.replaceSelection("\n- ");
+        } else {
+          editor.replaceSelection("\n");
+        }
+      },
+    });
   }
 
   /**
@@ -166,11 +177,22 @@ export class MarkdownComponent implements OnInit {
   }
 
   unordered_list(): void {
+    this.ul = !this.ul;
     if (this.selection == "") {      
+      if (this.ul) {
+        this.editor.replaceSelection("- ");
+      }
       this.editor.setCursor(this.cursor.line, this.cursor.ch + 2);
-      this.editor.replaceSelection("- ");
     } else {
       this.editor.replaceSelection("- " + this.selection);
+    }
+  }
+
+  horizontal_rule(): void {
+    if (this.selection == "") {      
+      this.editor.replaceSelection("---\n");
+    } else {
+      this.editor.replaceSelection("\n---\n");
     }
   }
 

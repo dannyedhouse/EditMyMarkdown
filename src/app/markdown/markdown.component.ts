@@ -26,7 +26,8 @@ export class MarkdownComponent implements OnInit {
   length: number;
   ul: boolean = false;
   ol: boolean = false;
-  count: number = 1;
+  count: number;
+  difference: number;
 
   /**
    * Map keys to functions
@@ -45,6 +46,7 @@ export class MarkdownComponent implements OnInit {
   constructor(private modalService: NgbModal, private service: AppService) {}
 
   ngOnInit(): void {
+    this.count = 1;
     this.tools = [
       { type: "Undo", icon: "fas fa-undo", break: false},
       { type: "Redo", icon: "fas fa-redo", break: true},
@@ -114,7 +116,13 @@ export class MarkdownComponent implements OnInit {
       this.editor.replaceSelection("\n- ");
     } else if (this.ol == true && this.ol !==null) {
       this.count++;
-      this.editor.replaceSelection("\n"+this.count+". ");
+      console.log(this.cursor.line+1 - this.count);
+      if ((this.cursor.line+1 - this.count) == this.difference) {
+        this.editor.replaceSelection("\n"+this.count+". ");
+      } else {
+        this.ordered_list();
+        this.editor.replaceSelection("\n");
+      }
     } else {
       this.editor.replaceSelection("\n");
     }
@@ -205,6 +213,7 @@ export class MarkdownComponent implements OnInit {
   ordered_list(): void {
     this.ol = !this.ol;
     this.count = 1;
+    this.difference = this.cursor.line - 1;
     if (this.selection == "") {      
       if (this.ol) {
         this.editor.replaceSelection("1. ");

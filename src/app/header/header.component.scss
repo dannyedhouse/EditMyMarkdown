@@ -3,14 +3,28 @@
     background-color: #34495e !important;
     color: #ecf0f1;
     font-family: 'Lato', sans-serif;
-    padding-left: 7%;
-    padding-right: 7%;
-}
-
-.navbar {
-    color: #ecf0f1;
 }
 
 #title {
     font-size: 1.9rem;
+}
+
+.dropdown-menu {
+    position: relative;
+}
+
+@media (min-width: 992px) {
+    .navbar {
+        padding-left: 7%;
+        padding-right: 7%;
+    }
+}
+
+@media (max-width: 991px) {
+    #navbarNavDropdown {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        background-color: #34495e;
+        width: 100%;
+    }
 }

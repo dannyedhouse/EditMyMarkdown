@@ -1,29 +1,79 @@
 <div class="custom-container">
-
   <div class="toolbar">
-    <ul *ngFor="let tool of tools">
-      <li><i class="{{tool.icon}}" title="{{tool.type}}" (click)="bold()"></i></li>
+    <ul *ngFor="let tool of tools" class={{tool.type}}>
+      <li title="{{tool.type}}" (click)="callFunction(tool.type)" [ngClass]="{'ul': tool.type==='Unordered List', 'ul-active': ul===true,
+        'ol': tool.type==='Ordered List', 'ol-active': ol===true}">
+        <i class="{{tool.icon}}"></i>
+      </li>
+      <span *ngIf="tool.break" class="divider"></span>
     </ul>
-    <span class="divider"></span>
     <ul>
-      <li>H1</li>
-      <li>H2</li>
-      <li>H3</li>
-      <li>H4</li>
-      <li>H5</li>
-      <li>H6</li>
+      <li title="Help" (click)="helpModal()"><i class="fas fa-question"></i></li>
     </ul>
-    <span class="divider"></span>
   </div>
   
   <div class="codemirror">
     <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
+      extraKeys: extraKeys,
+      autoFocus: true,
       lineNumbers: true,
       lineWrapping: true,
       theme: 'ambiance',
-      mode: 'markdown'}">
+      mode: 'markdown'}" [autoFocus]=true (change)="updatePreview()" (cursorActivity)="updatePreview()">
     </ngx-codemirror>
   </div>
-  <div class="preview">
-  </div>
+  <div markdown emoji [data]="preview" class="preview"></div>
 </div>
+
+<!--Emoji Modal-->
+<ng-template #emoji let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">GitHub Emoji</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="search-emoji">
+    <input type="text" class="form-control" [(ngModel)]="query" placeholder="Type to search...">
+    <hr>
+  </div>
+  <div class="modal-body" id="emoji-body">
+    <div class="emojis">
+      <ul class="emoji_list">
+        <li *ngFor="let emoji of emojis | filter:'name, url':query" (click)="selectEmoji(emoji)" [ngClass]="{'active': emoji.active}">
+          <img src="{{emoji.url}}" title="{{emoji.name}}" alt="{{emoji.name}}" onerror="this.onerror=null;this.src='/assets/default.jpg'"/>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-dark" (click)="insertEmoji()">Insert</button>
+    <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Close</button>
+  </div>
+ 
+</ng-template>
+
+
+<!--Help Modal-->
+<ng-template #help let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Help</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Markdown is a lightweight markup language with plain-text-formatting syntax, often used for formatting readme files.
+      <a href="https://en.wikipedia.org/wiki/Markdown">(Wikipedia)</a></p>
+    Useful reference links:
+    <ul>
+      <li><a href="https://daringfireball.net/projects/markdown/">Markdown Official Website</a></li>
+      <li><a href="https://guides.github.com/features/mastering-markdown/">Mastering Markdown</a></li>
+    </ul>
+    <p><b>Note: </b>Formatter Tools uses GFM (GitHub Flavoured Markdown) that provides additional features such as task lists,
+    tables and emoji.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Close</button>
+  </div>
+</ng-template>

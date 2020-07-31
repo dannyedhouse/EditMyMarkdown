@@ -6,12 +6,14 @@
 .toolbar {
     width: 100%;
     padding-top: 10px;
+    padding-bottom: 10px;
     background-color: #222;
     display: block;
     color: #b9b9b9;
 }
 
 .toolbar ul {
+    margin-bottom: 0px;
     padding-inline-start: 15px;
     list-style: none;
     display: inline-block;
@@ -22,6 +24,16 @@
     padding: 3px 5px 3px 5px;
     border-radius: 3px;
     display: inline-block;
+}
+
+li.ul.ul-active {
+    background-color: #424242;
+    color: white;
+}
+
+li.ol.ol-active {
+    background-color: #424242;
+    color: white;
 }
 
 .toolbar li:hover {
@@ -36,15 +48,97 @@
     height: 100% !important;
 }
 
-
-
 .preview {
     float: right;
     width: 50%;
+    padding: 10px;
 }
 
 .divider {
     border-right: 1px solid #b9b9b9;
     height: 100%;
     margin: 0 -5px 0px 10px;
+}
+
+.search-emoji {
+    padding: 10px 10px 0px 10px;
+}
+
+.emojis {
+    text-align: center;
+}
+
+.emoji_list {
+    padding-inline-start: 0;
+    display: inline;
+    list-style: none;
+}
+
+.emoji_list li {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    padding: 10px;
+    display: inline-block;
+}
+
+.emoji_list li:hover {
+    background-color: #e2e6ea;
+}
+
+.emoji_list img {
+    width: 32px;
+    height: 32px;
+}
+
+a {
+    color: #0153a5;
+}
+
+.emoji_list li.active {
+    background-color: #ccc;
+}
+
+.heading-icon {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 900;
+    font-family: 'Lato', sans-serif;;
+}
+
+.heading-icon, .h1:before {
+    content: "H1";
+}
+
+.heading-icon, .h2:before {
+    content: "H2";
+}
+
+.heading-icon, .h3:before {
+    content: "H3";
+}
+
+.heading-icon, .h4:before {
+    content: "H4";
+}
+
+.heading-icon, .h5:before {
+    content: "H5";
+}
+
+.heading-icon, .h6:before {
+    content: "H6";
+}
+
+ul.H2,.H3,.H4,.H5,.H6 {
+    padding-inline-start: 5px !important;
+}
+
+@media (max-width: 660px) {
+    .codemirror {
+        width: 100%;
+    }
+    
+    .preview {
+        display: none;
+    }
 }

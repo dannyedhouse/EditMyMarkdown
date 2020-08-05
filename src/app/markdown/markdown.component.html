@@ -12,24 +12,56 @@
     </ul>
   </div>
   
-  <div class="codemirror">
-    <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
-      extraKeys: extraKeys,
-      autoFocus: true,
-      lineNumbers: true,
-      lineWrapping: true,
-      theme: 'ambiance',
-      mode: 'markdown'}" [autoFocus]=true (change)="updatePreview()" (cursorActivity)="updatePreview()">
-    </ngx-codemirror>
+  <div class="scroll">
+    <div class="codemirror">
+      <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
+        extraKeys: extraKeys,
+        autoFocus: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        theme: 'ambiance',
+        mode: 'markdown'}" [autoFocus]=true (change)="updatePreview()" (cursorActivity)="updatePreview()">
+      </ngx-codemirror>
+    </div>
+    <div markdown emoji [data]="preview" class="preview"></div>
   </div>
-  <div markdown emoji [data]="preview" class="preview"></div>
 </div>
+
+<!--Link/Image Modal-->
+<ng-template #insert let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Insert {{mode}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group row">
+      <label for="link" class="col-sm-3 col-form-label">Address:</label>
+      <div class="col-sm-9">
+        <input type="text" [(ngModel)]="linkAddress" class="form-control" id="link" placeholder="https://">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="title" class="col-sm-3 col-form-label"><span *ngIf="mode==='Link'">Title:</span>
+        <span *ngIf="mode==='Image'">Alt Text:</span></label>
+      <div class="col-sm-9">
+        <input type="text" *ngIf="mode==='Link'" [(ngModel)]="linkTitle" class="form-control" id="title" placeholder="Click me!">
+        <input type="text" *ngIf="mode==='Image'" [(ngModel)]="linkTitle" class="form-control" id="title" placeholder="Describe the image...">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-dark" id="insertBtn" [disabled]="!linkAddress.length" (click)="insertLink()">Insert</button>
+    <button type="button" class="btn btn-light" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>
 
 <!--Emoji Modal-->
 <ng-template #emoji let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">GitHub Emoji</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -41,18 +73,16 @@
     <div class="emojis">
       <ul class="emoji_list">
         <li *ngFor="let emoji of emojis | filter:'name, url':query" (click)="selectEmoji(emoji)" [ngClass]="{'active': emoji.active}">
-          <img src="{{emoji.url}}" title="{{emoji.name}}" alt="{{emoji.name}}" onerror="this.onerror=null;this.src='/assets/default.jpg'"/>
+          <img src="{{emoji.url}}" title="{{emoji.name}}" alt="{{emoji.name}}" onerror="this.onerror=null;this.src='/assets/default.jpg'" tabindex="0"/>
         </li>
       </ul>
     </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-dark" (click)="insertEmoji()">Insert</button>
-    <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Close</button>
+    <button type="button" class="btn btn-light" (click)="closeModal()">Close</button>
   </div>
- 
 </ng-template>
-
 
 <!--Help Modal-->
 <ng-template #help let-modal>

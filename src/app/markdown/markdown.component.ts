@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import {AppService, Emoji} from '../app.service';
@@ -11,6 +11,7 @@ import {AppService, Emoji} from '../app.service';
 })
 export class MarkdownComponent implements OnInit {
   @ViewChild('codeEditor', { static: false }) private codeEditor: CodemirrorComponent;
+  @ViewChild('insert') private insertContent: NgbModal;
   @ViewChild('emoji') private emojiContent: NgbModal;
   @ViewChild('help') private helpContent: NgbModal;
 
@@ -28,6 +29,9 @@ export class MarkdownComponent implements OnInit {
   ol: boolean = false;
   count: number;
   difference: number;
+  linkAddress: string = "";
+  linkTitle: string = "";
+  mode: string = "";
 
   /**
    * Map keys to functions
@@ -63,6 +67,8 @@ export class MarkdownComponent implements OnInit {
       { type: "H4", icon: "heading-icon h4", break: false},
       { type: "H5", icon: "heading-icon h5", break: false},
       { type: "H6", icon: "heading-icon h6", break: true},
+      { type: "Link", icon: "fas fa-link", break: false},
+      { type: "Image", icon: "fas fa-image", break: false},
       { type: "Emoji", icon: "fas fa-laugh", break: false},
     ];
     this.getEmojisFromService();
@@ -116,7 +122,6 @@ export class MarkdownComponent implements OnInit {
       this.editor.replaceSelection("\n- ");
     } else if (this.ol == true && this.ol !==null) {
       this.count++;
-      console.log(this.cursor.line+1 - this.count);
       if ((this.cursor.line+1 - this.count) == this.difference) {
         this.editor.replaceSelection("\n"+this.count+". ");
       } else {
@@ -243,12 +248,50 @@ export class MarkdownComponent implements OnInit {
     }
   }
 
-  helpModal(): void {
-    this.modalService.open(this.helpContent, {scrollable: true, centered: true, windowClass: "modal"});
+  link(): void {
+    this.mode = "Link";
+    this.modalService.open(this.insertContent, {scrollable: true, centered: true});
   }
 
-  emoji() {
-    this.modalService.open(this.emojiContent, {scrollable: true, centered: true, windowClass: "modal"});
+  image(): void {
+    this.mode = "Image";
+    this.modalService.open(this.insertContent, {scrollable: true, centered: true});
+  }
+
+  helpModal(): void {
+    this.modalService.open(this.helpContent, {scrollable: true, centered: true, windowClass: "lg-modal"});
+  }
+
+  emoji(): void {
+    this.modalService.open(this.emojiContent, {scrollable: true, centered: true, windowClass: "lg-modal"});
+  }
+
+  /**
+   * Insert link/image
+   */
+  insertLink(): void {
+    if (this.linkTitle == "")
+      this.linkTitle = this.linkAddress;
+
+    var linkStr = "[" + this.linkTitle + "]" + "(" + this.linkAddress + ")";
+    if (this.mode == "Image") {
+      linkStr = "!" + linkStr;
+    }
+
+    if (this.selection == "") {      
+      this.editor.setCursor(this.cursor.line, this.cursor.ch+2);
+      this.editor.replaceSelection(linkStr);
+    } else {
+      this.editor.replaceSelection(linkStr);
+    }
+    this.closeModal();
+  }
+
+  closeModal(): void {
+    this.query = "";
+    this.linkAddress = "";
+    this.linkTitle = "";
+    this.modalService.dismissAll();
   }
 
   /**
@@ -266,8 +309,7 @@ export class MarkdownComponent implements OnInit {
         emoji.active = false;
       }
     });
-    this.query = "";
-    this.modalService.dismissAll();
+    this.closeModal();
   }
 
   /**

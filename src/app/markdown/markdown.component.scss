@@ -55,7 +55,7 @@ li.ol.ol-active {
 }
 
 .divider {
-    border-right: 1px solid #b9b9b9;
+    border-right: 1px solid #3e3e3e;
     height: 100%;
     margin: 0 -5px 0px 10px;
 }
@@ -131,6 +131,10 @@ a {
 
 ul.H2,.H3,.H4,.H5,.H6 {
     padding-inline-start: 5px !important;
+}
+
+#insertBtn:disabled {
+    cursor: not-allowed;
 }
 
 @media (max-width: 660px) {

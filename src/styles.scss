@@ -26,7 +26,7 @@ body {
     max-height: 75% !important;
 }
 
-.modal #emoji-body {
+.lg-modal #emoji-body {
     padding-top: 0px;
 }
 
@@ -44,7 +44,7 @@ body {
 
 
 @media (min-width: 576px) { 
-    .modal .modal-dialog {
+    .lg-modal .modal-dialog {
         max-width: 650px;
         height: 50%;
     }

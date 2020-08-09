@@ -46,8 +46,8 @@
       <label for="title" class="col-sm-3 col-form-label"><span *ngIf="mode==='Link'">Title:</span>
         <span *ngIf="mode==='Image'">Alt Text:</span></label>
       <div class="col-sm-9">
-        <input type="text" *ngIf="mode==='Link'" [(ngModel)]="linkTitle" class="form-control" id="title" placeholder="Click me!">
-        <input type="text" *ngIf="mode==='Image'" [(ngModel)]="linkTitle" class="form-control" id="title" placeholder="Describe the image...">
+        <input type="text" *ngIf="mode==='Link'" [(ngModel)]="linkTitle" class="form-control" id="title" placeholder="e.g. Click me!">
+        <input type="text" *ngIf="mode==='Image'" [(ngModel)]="linkTitle" class="form-control" id="title" placeholder="Describe the image">
       </div>
     </div>
   </div>

@@ -69,6 +69,7 @@ export class MarkdownComponent implements OnInit {
       { type: "H6", icon: "heading-icon h6", break: true},
       { type: "Link", icon: "fas fa-link", break: false},
       { type: "Image", icon: "fas fa-image", break: false},
+      { type: "Code", icon: "fas fa-code", break: false},
       { type: "Emoji", icon: "fas fa-laugh", break: false},
     ];
     this.getEmojisFromService();
@@ -258,6 +259,19 @@ export class MarkdownComponent implements OnInit {
     this.modalService.open(this.insertContent, {scrollable: true, centered: true});
   }
 
+  code(): void {
+    if (this.selection == "") {      
+      this.editor.replaceSelection("`Type code here`");
+      this.editor.setSelection({line: this.cursor.line, ch: this.cursor.ch-15}, {line: this.cursor.line, ch: this.cursor.ch-1});
+    } else if (this.line.charAt(this.pos) == "`" && this.line.charAt(this.pos-this.length-1) == "`") {
+      this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos-this.length-1}, {line: this.cursor.line, ch: this.pos+1});
+    } else if (this.line.charAt(this.pos-1) == "`" && this.line.charAt(this.pos+this.length) == "`") {
+      this.editor.replaceRange(this.selection, {line: this.cursor.line, ch: this.pos+this.length+1}, {line: this.cursor.line, ch: this.pos-1});
+    } else {
+      this.editor.replaceSelection("`" + this.selection + "`");
+    }
+  }
+  
   helpModal(): void {
     this.modalService.open(this.helpContent, {scrollable: true, centered: true, windowClass: "lg-modal"});
   }

@@ -16,6 +16,7 @@ export class MarkdownComponent implements OnInit {
   @ViewChild('help') private helpContent: NgbModal;
 
   tools: tools[];
+  shortcuts: any[];
   emojis: Emoji[] = [];
   preview: string = "";
   query: string = "";
@@ -27,6 +28,7 @@ export class MarkdownComponent implements OnInit {
   length: number;
   ul: boolean = false;
   ol: boolean = false;
+  tl: boolean = false;
   count: number;
   difference: number;
   linkAddress: string = "";
@@ -44,6 +46,7 @@ export class MarkdownComponent implements OnInit {
     "Ctrl-Q": () => this.quote(),
     "Shift-Ctrl-O": () => this.unordered_list(),
     "Shift-Ctrl-U": () => this.ordered_list(),
+    "Shift-Ctrl-L": () => this.task_list(),
     "Shift-Ctrl--": () => this.horizontal_rule(),
   }
 
@@ -60,6 +63,7 @@ export class MarkdownComponent implements OnInit {
       { type: "Quote", icon: "fas fa-quote-left", break: false},
       { type: "Unordered List", icon: "fas fa-list-ul", break: false},
       { type: "Ordered List", icon: "fas fa-list-ol", break: false},
+      { type: "Task List", icon: "fas fa-tasks", break: false},
       { type: "Horizontal Rule", icon: "fas fa-minus", break: true},
       { type: "H1", icon: "heading-icon h1", break: false},
       { type: "H2", icon: "heading-icon h2", break: false},
@@ -71,6 +75,16 @@ export class MarkdownComponent implements OnInit {
       { type: "Image", icon: "fas fa-image", break: false},
       { type: "Code", icon: "fas fa-code", break: false},
       { type: "Emoji", icon: "fas fa-laugh", break: false},
+    ];
+    this.shortcuts = [ // Keyboard shortcuts for help modal
+      { key: "Ctrl + B", action: "Bold"},
+      { key: "Ctrl + I", action: "Italic"},
+      { key: "Ctrl + Q", action: "Quote"},
+      { key: "Ctrl + Shift + S", action: "Strikethrough"},
+      { key: "Ctrl + Shift + O", action: "Ordered List"},
+      { key: "Ctrl + Shift + U", action: "Unordered List"},
+      { key: "Ctrl + Shift + L", action: "Task List"},
+      { key: "Ctrl + Shift + -", action: "Horizontal Rule"},
     ];
     this.getEmojisFromService();
   }
@@ -129,6 +143,8 @@ export class MarkdownComponent implements OnInit {
         this.ordered_list();
         this.editor.replaceSelection("\n");
       }
+    } else if (this.tl == true && this.tl !==null) {
+      this.editor.replaceSelection("\n- [X] ");
     } else {
       this.editor.replaceSelection("\n");
     }
@@ -227,6 +243,18 @@ export class MarkdownComponent implements OnInit {
       this.editor.setCursor(this.cursor.line, this.cursor.ch + 2);
     } else {
       this.editor.replaceSelection("1. " + this.selection);
+    }
+  }
+
+  task_list(): void {
+    this.tl = !this.tl;
+    if (this.selection == "") {      
+      if (this.tl) {
+        this.editor.replaceSelection("- [ ] ");
+      }
+      this.editor.setCursor(this.cursor.line, this.cursor.ch + 2);
+    } else {
+      this.editor.replaceSelection("\n- [ ] " + this.selection);
     }
   }
 

@@ -2,7 +2,7 @@
   <div class="toolbar">
     <ul *ngFor="let tool of tools" class={{tool.type}}>
       <li title="{{tool.type}}" (click)="callFunction(tool.type)" [ngClass]="{'ul': tool.type==='Unordered List', 'ul-active': ul===true,
-        'ol': tool.type==='Ordered List', 'ol-active': ol===true}">
+        'ol': tool.type==='Ordered List', 'ol-active': ol===true, 'tl': tool.type==='Task List', 'tl-active': tl===true}">
         <i class="{{tool.icon}}"></i>
       </li>
       <span *ngIf="tool.break" class="divider"></span>
@@ -93,15 +93,43 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Markdown is a lightweight markup language with plain-text-formatting syntax, often used for formatting readme files.
-      <a href="https://en.wikipedia.org/wiki/Markdown">(Wikipedia)</a></p>
-    Useful reference links:
-    <ul>
-      <li><a href="https://daringfireball.net/projects/markdown/">Markdown Official Website</a></li>
-      <li><a href="https://guides.github.com/features/mastering-markdown/">Mastering Markdown</a></li>
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="home" aria-selected="true">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Keyboard Shortcuts</a>
+      </li>
     </ul>
-    <p><b>Note: </b>Formatter Tools uses GFM (GitHub Flavoured Markdown) that provides additional features such as task lists,
-    tables and emoji.</p>
+    <div class="tab-content">
+      <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="about-tab">
+        <p>Markdown is a lightweight markup language with plain-text-formatting syntax, often used for formatting readme files.
+          <a href="https://en.wikipedia.org/wiki/Markdown">(Wikipedia)</a></p>
+        Useful reference links:
+        <ul>
+          <li><a href="https://daringfireball.net/projects/markdown/">Markdown Official Website</a></li>
+          <li><a href="https://guides.github.com/features/mastering-markdown/">Mastering Markdown</a></li>
+        </ul>
+        <p><b>Note: </b>Formatter Tools uses GFM (GitHub Flavoured Markdown) that provides additional features such as task lists,
+        tables and emoji.</p>
+      </div>
+      <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <table class="table table-striped" id="shortcutTable">
+          <thead>
+            <tr>
+              <th>Shortcut</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let shortcut of shortcuts">
+              <td>{{shortcut.key}}</td>
+              <td>{{shortcut.action}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Close</button>

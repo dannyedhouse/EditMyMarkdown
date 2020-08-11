@@ -36,6 +36,11 @@ li.ol.ol-active {
     color: white;
 }
 
+li.tl.tl-active {
+    background-color: #424242;
+    color: white;
+}
+
 .toolbar li:hover {
     color: white;
     background-color: #424242;
@@ -135,6 +140,24 @@ ul.H2,.H3,.H4,.H5,.H6 {
 
 #insertBtn:disabled {
     cursor: not-allowed;
+}
+
+.tab-content {
+    padding-top: 20px;
+}
+
+#shortcutTable {
+    margin-top: -10px;
+    margin-bottom: 0;
+}
+
+#shortcutTable thead th {
+    padding-left: 0.25rem;
+    border-top: 0;
+}
+
+#shortcutTable td {
+    padding: 0.2rem;
 }
 
 @media (max-width: 660px) {

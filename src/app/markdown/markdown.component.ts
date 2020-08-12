@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
-import {AppService, Emoji} from '../app.service';
+import { AppService, Emoji } from '../app.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SecurityContext } from '@angular/core';
 
 @Component({
   selector: 'app-markdown',
@@ -50,7 +52,7 @@ export class MarkdownComponent implements OnInit {
     "Shift-Ctrl--": () => this.horizontal_rule(),
   }
 
-  constructor(private modalService: NgbModal, private service: AppService) {}
+  constructor(private modalService: NgbModal, private service: AppService, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.count = 1;
@@ -124,7 +126,7 @@ export class MarkdownComponent implements OnInit {
   updatePreview(): void {
     const editor = this.codeEditor.codeMirror;
     editor.focus();
-    this.preview = editor.getValue();
+    this.preview = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustHtml(editor.getValue()));
     this.selection = editor.getSelection();
     this.cursor = editor.getCursor();
     this.line = editor.getLine(this.cursor.line);
@@ -157,7 +159,7 @@ export class MarkdownComponent implements OnInit {
     this.editor = this.codeEditor.codeMirror;
     this.editor.setSize("100%", "100%");
     this.editor.focus();
-    this.preview = this.editor.getValue();
+    this.preview = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustHtml(this.editor.getValue()));
   }
 
   undo(): void {

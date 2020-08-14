@@ -1,6 +1,13 @@
 .custom-container {
     background-color: white;
     margin: 0 auto;
+    font-size: 15px !important;
+    font-style: normal;
+}
+
+.scroll {
+    overflow-y: scroll;
+    max-height: 500px;
 }
 
 .toolbar {
@@ -53,10 +60,12 @@ li.tl.tl-active {
     height: 100% !important;
 }
 
-.preview {
+#preview {
     float: right;
     width: 50%;
     padding: 10px;
+    font-size: 15px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .divider {
@@ -165,7 +174,7 @@ ul.H2,.H3,.H4,.H5,.H6 {
         width: 100%;
     }
     
-    .preview {
+    #preview {
         display: none;
     }
 }

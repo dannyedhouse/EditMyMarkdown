@@ -11,7 +11,6 @@
       <li title="Help" (click)="helpModal()"><i class="fas fa-question"></i></li>
     </ul>
   </div>
-  
   <div class="scroll">
     <div class="codemirror">
       <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
@@ -19,11 +18,14 @@
         autoFocus: true,
         lineNumbers: true,
         lineWrapping: true,
-        theme: 'ambiance',
+        theme: 'idea',
+        foldGutter: true,
+        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+        lint: true,
         mode: 'markdown'}" [autoFocus]=true (change)="updatePreview()" (cursorActivity)="updatePreview()">
       </ngx-codemirror>
     </div>
-    <div markdown emoji [data]="preview" class="preview"></div>
+    <div markdown emoji [data]="preview" class="markdown-body" id="preview"></div>
   </div>
 </div>
 

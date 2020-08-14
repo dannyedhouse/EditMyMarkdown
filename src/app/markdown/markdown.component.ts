@@ -375,8 +375,8 @@ export class MarkdownComponent implements OnInit {
     }); 
   }
 
-  source_code = "# Formatter Tools - Markdown\n----\n1. Click me and edit the markdown.\n2. See rendered HTML!\n----\nReference:"
-    +"\n# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n\n**strong**\n*emphasis*\n"
+  source_code = "# Formatter Tools - Markdown\n\n1. Click me and edit the markdown.\n2. See rendered HTML!\n----\nReference:"
+    +"\n# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n\n**strong**\n*emphasis*"
 }
 
 export interface tools {

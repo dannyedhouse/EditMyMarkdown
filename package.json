@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "bootstrap": "^4.5.0",
     "codemirror": "^5.55.0",
+    "github-markdown-css": "^4.0.0",
     "jquery": "^3.5.1",
     "ngx-markdown": "^10.0.0",
     "rxjs": "~6.5.5",

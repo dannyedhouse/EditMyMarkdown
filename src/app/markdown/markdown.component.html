@@ -26,6 +26,15 @@
       </ngx-codemirror>
     </div>
     <div markdown emoji [data]="preview" class="markdown-body" id="preview"></div>
+    
+  </div>
+  <div class="status">
+    <div class="markdown-status">
+      Markdown <span class="value">{{wordCount}}</span> Words <span class="value">{{lineCount}}</span> Lines<span class="value">Line {{lineNum}}, Col {{pos}}</span>
+    </div>
+    <div class="html-status">
+      HTML <span class="value">{{htmlWordCount}}</span> Words
+    </div>
   </div>
 </div>
 

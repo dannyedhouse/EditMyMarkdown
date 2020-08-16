@@ -26,7 +26,7 @@ export class MarkdownComponent implements OnInit {
   selection: string;
   cursor: CodeMirror.Position;
   line: string;
-  pos: number;
+  pos: number = 0;
   length: number;
   ul: boolean = false;
   ol: boolean = false;
@@ -36,6 +36,10 @@ export class MarkdownComponent implements OnInit {
   linkAddress: string = "";
   linkTitle: string = "";
   mode: string = "";
+  wordCount: number = 1;
+  lineCount: number = 1;
+  lineNum: number = 1;
+  htmlWordCount: number = 1;
 
   /**
    * Map keys to functions
@@ -76,7 +80,7 @@ export class MarkdownComponent implements OnInit {
       { type: "Link", icon: "fas fa-link", break: false},
       { type: "Image", icon: "fas fa-image", break: false},
       { type: "Code", icon: "fas fa-code", break: false},
-      { type: "Emoji", icon: "fas fa-laugh", break: false},
+      { type: "Emoji", icon: "fas fa-laugh", break: true},
     ];
     this.shortcuts = [ // Keyboard shortcuts for help modal
       { key: "Ctrl + B", action: "Bold"},
@@ -121,6 +125,22 @@ export class MarkdownComponent implements OnInit {
   }
 
   /**
+   * Sets the HTML preview to the rendered default source_code
+   */
+  private setPreview(): void {
+    this.editor = this.codeEditor.codeMirror;
+    this.editor.setSize("100%", "100%");
+    this.editor.focus();
+    this.line = this.editor.getLine(this.cursor.line);
+    this.pos = this.editor.getCursor().ch;
+    this.lineNum = this.editor.getCursor().line+1;
+    this.lineCount = this.editor.lineCount();
+    this.wordCount = this.getWordCount(this.editor);
+    this.getHTMLStats();
+    this.preview = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustHtml(this.editor.getValue()));
+  }
+
+  /**
    * Update the preview when there is a change in the codemirror
    */
   updatePreview(): void {
@@ -131,9 +151,33 @@ export class MarkdownComponent implements OnInit {
     this.cursor = editor.getCursor();
     this.line = editor.getLine(this.cursor.line);
     this.pos = this.cursor.ch;
+    this.lineNum = this.cursor.line+1;
     this.length = this.selection.length;
+    this.lineCount = editor.lineCount();
+    this.wordCount = this.getWordCount(editor);
+    this.getHTMLStats();
   }
- 
+
+  /**
+   * Return the word count from document
+   */
+  getWordCount(editor): number {
+    var doc = editor.getDoc().getValue();
+    return doc.trim().replace(/\s+/gi, ' ').split(' ').length;
+  }
+
+  /**
+   * Get the line and word count from rendered HTML
+   */
+  getHTMLStats(): void {
+    var doc = document.getElementById('preview').innerText;
+    this.htmlWordCount = doc.trim().replace(/\s+/gi, ' ').split(' ').length;
+  }
+
+  /**
+   * Called when enter key is pressed, will add a new line followed by the markdown
+   * syntax for one of the lists if this is currently toggled.
+   */
   private enterKey() {
     if (this.ul == true && this.ul !==null) {
       this.editor.replaceSelection("\n- ");
@@ -150,16 +194,6 @@ export class MarkdownComponent implements OnInit {
     } else {
       this.editor.replaceSelection("\n");
     }
-  }
-
-  /**
-   * Sets the HTML preview to the rendered default source_code
-   */
-  private setPreview(): void {
-    this.editor = this.codeEditor.codeMirror;
-    this.editor.setSize("100%", "100%");
-    this.editor.focus();
-    this.preview = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustHtml(this.editor.getValue()));
   }
 
   undo(): void {

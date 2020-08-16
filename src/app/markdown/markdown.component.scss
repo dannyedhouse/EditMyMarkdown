@@ -169,6 +169,30 @@ ul.H2,.H3,.H4,.H5,.H6 {
     padding: 0.2rem;
 }
 
+.status {
+    padding: 0.1rem;
+    background-color: #007acc;
+    color: #fff;
+    font-size: 13px;
+    width: 100%;
+    position: absolute;
+}
+
+.markdown-status {
+    margin: 0 10px;
+    float: left;
+}
+
+.html-status {
+    margin: 0 10px;
+    float: right;
+}
+
+.value {
+    font-weight: 600;
+    margin-left: 12px;
+}
+
 @media (max-width: 660px) {
     .codemirror {
         width: 100%;

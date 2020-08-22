@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MarkdownComponent } from './markdown/markdown.component';
 import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
@@ -18,7 +17,6 @@ import { AppService } from './app.service';
     AppComponent,
     MarkdownComponent,
     HeaderComponent,
-    FooterComponent,
     FilterPipe
   ],
   imports: [
@@ -42,8 +40,7 @@ import { AppService } from './app.service';
     }})
   ],
   exports: [
-    HeaderComponent,
-    FooterComponent
+    HeaderComponent
   ],
   providers: [AppService],
   bootstrap: [AppComponent]

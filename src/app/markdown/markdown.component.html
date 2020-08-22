@@ -1,4 +1,5 @@
-<div class="custom-container">
+<div class="fixed-container">
+  <app-header></app-header>
   <div class="toolbar">
     <ul *ngFor="let tool of tools" class={{tool.type}}>
       <li title="{{tool.type}}" (click)="callFunction(tool.type)" [ngClass]="{'ul': tool.type==='Unordered List', 'ul-active': ul===true,
@@ -11,6 +12,8 @@
       <li title="Help" (click)="helpModal()"><i class="fas fa-question"></i></li>
     </ul>
   </div>
+</div>
+<div class="custom-container">
   <div class="scroll">
     <div class="codemirror">
       <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
@@ -26,7 +29,6 @@
       </ngx-codemirror>
     </div>
     <div markdown emoji [data]="preview" class="markdown-body" id="preview"></div>
-    
   </div>
   <div class="status">
     <div class="markdown-status">

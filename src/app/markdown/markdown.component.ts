@@ -4,6 +4,7 @@ import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import { AppService, Emoji } from '../app.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SecurityContext } from '@angular/core';
+import {ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-markdown',
@@ -36,7 +37,7 @@ export class MarkdownComponent implements OnInit {
   linkAddress: string = "";
   linkTitle: string = "";
   mode: string = "";
-  wordCount: number = 1;
+  wordCount: number = 0;
   lineCount: number = 1;
   lineNum: number = 1;
   htmlWordCount: number = 1;
@@ -59,7 +60,7 @@ export class MarkdownComponent implements OnInit {
     "Shift-Ctrl--": () => this.horizontal_rule(),
   }
 
-  constructor(private modalService: NgbModal, private service: AppService, private sanitizer: DomSanitizer) {}
+  constructor(private modalService: NgbModal, private service: AppService, private sanitizer: DomSanitizer, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.count = 1;
@@ -145,6 +146,10 @@ export class MarkdownComponent implements OnInit {
     setTimeout(() => this.setPreview());
   }
 
+  ngAfterContentChecked() {
+    this.cdRef.detectChanges();
+  }
+
   /**
    * Return the function for the tool type clicked
    * @param toolName Name of the tool which matches lowercase function
@@ -166,6 +171,7 @@ export class MarkdownComponent implements OnInit {
     this.editor = this.codeEditor.codeMirror;
     this.editor.setSize("100%", "100%");
     this.editor.focus();
+    this.editor.refresh();
     this.line = this.editor.getLine(this.cursor.line);
     this.pos = this.editor.getCursor().ch;
     this.lineNum = this.editor.getCursor().line+1;
@@ -190,6 +196,7 @@ export class MarkdownComponent implements OnInit {
     this.length = this.selection.length;
     this.lineCount = editor.lineCount();
     this.wordCount = this.getWordCount(editor);
+    console.log(this.getWordCount(editor));
     this.getHTMLStats();
   }
 
@@ -198,6 +205,9 @@ export class MarkdownComponent implements OnInit {
    */
   getWordCount(editor): number {
     var doc = editor.getDoc().getValue();
+    if (doc.length == 0) {
+      return 0;
+    }
     return doc.trim().replace(/\s+/gi, ' ').split(' ').length;
   }
 

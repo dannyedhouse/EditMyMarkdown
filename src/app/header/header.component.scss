@@ -18,10 +18,19 @@
     position: relative;
 }
 
+#github {
+    background-color: #243341;
+    border-radius: 3px;
+}
+
 @media (min-width: 992px) {
     .navbar {
         padding-left: 7%;
         padding-right: 7%;
+    }
+    
+    #github {
+        display: none;
     }
 }
 

@@ -51,6 +51,11 @@
     display: inline-block;
 }
 
+.toolbar-actions.disabled li {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
 li.ul.ul-active {
     background-color: #424242;
     color: white;
@@ -212,6 +217,24 @@ ul.H2,.H3,.H4,.H5,.H6 {
     margin-left: 12px;
 }
 
+.codemirror.hide {
+    display: none;
+}
+
+.mobile-button {
+    border-radius: 50%;;
+    background-color: grey;
+    float: right;
+    position: absolute;
+    right: 0;    
+}
+
+@media (max-width: 991px) {
+    .github-corner {
+        display: none;
+    }
+}
+
 @media (min-width: 660px) {
     .codemirror {
         border-right: 2px solid #ddd;
@@ -221,10 +244,6 @@ ul.H2,.H3,.H4,.H5,.H6 {
 @media (max-width: 855px) {
     .codemirror {
         width: 100%;
-    }
-    
-    #preview {
-        display: none;
     }
 
     .fixed-container + * {

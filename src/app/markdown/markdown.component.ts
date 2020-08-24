@@ -40,6 +40,9 @@ export class MarkdownComponent implements OnInit {
   lineCount: number = 1;
   lineNum: number = 1;
   htmlWordCount: number = 1;
+  hideEditor: boolean = false;
+  display: string = "display";
+  isOnMobile: boolean = false;
 
   /**
    * Map keys to functions
@@ -93,6 +96,38 @@ export class MarkdownComponent implements OnInit {
       { key: "Ctrl + Shift + -", action: "Horizontal Rule"},
     ];
     this.getEmojisFromService();
+    this.toggleMobile();
+    
+    window.onresize = () => {
+      this.toggleMobile();
+    } 
+  }
+
+  /**
+   *  Hides the html preview if viewing on mobile (only if editor not hidden)
+   */
+  private toggleMobile(): void {
+    this.isOnMobile = this.isMobile();
+    if (this.isOnMobile) {
+      if (this.hideEditor == false) {
+        this.display = "none";
+      }
+    } else {
+      this.hideEditor = false;
+      this.display = "initial";
+    }
+  }
+  
+  /**
+   * Checks if viewing on mobile (determined by bootstrap width of 992px)
+   */
+  private isMobile(): boolean {
+    var width = document.documentElement.clientWidth;
+    if (width < 992) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -407,6 +442,18 @@ export class MarkdownComponent implements OnInit {
     this.emojis = emojisCopy.filter(function(tag) {
         return tag.name.indexOf(term) >= 0;
     }); 
+  }
+
+  /**
+   * Toggle between showing the HTML preview/editor (only on mobile)
+   */
+  showPreview(): void {
+    this.hideEditor = !this.hideEditor;
+    if (this.hideEditor) {
+      this.display = "initial";
+    } else {
+      this.display = "none";
+    }
   }
 
   source_code = "# Formatter Tools - Markdown\n\n1. Click me and edit the markdown.\n2. See rendered HTML!\n----\nReference:"

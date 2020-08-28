@@ -196,7 +196,6 @@ export class MarkdownComponent implements OnInit {
     this.length = this.selection.length;
     this.lineCount = editor.lineCount();
     this.wordCount = this.getWordCount(editor);
-    console.log(this.getWordCount(editor));
     this.getHTMLStats();
   }
 
@@ -466,7 +465,7 @@ export class MarkdownComponent implements OnInit {
     }
   }
 
-  source_code = "# Formatter Tools - Markdown\n\n1. Click me and edit the markdown.\n2. See rendered HTML!\n----\nReference:"
+  source_code = "# Welcome to EditMyMarkdown\n\n1. Click me and edit the markdown.\n2. See rendered HTML!\n----\nReference:"
     +"\n# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n\n**strong**\n*emphasis*"
 }
 

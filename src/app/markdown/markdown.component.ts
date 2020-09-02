@@ -249,7 +249,7 @@ export class MarkdownComponent implements OnInit {
     const previewDiv = this.elRef.nativeElement.querySelectorAll(".markdown-body");
     const preview = previewDiv[0] as HTMLElement;
 
-    clearTimeout(this.editorTimeout);
+    clearTimeout(this.previewTimeout);
     if (!this.syncPreview) {
       this.syncEditor = true;
 
@@ -258,7 +258,7 @@ export class MarkdownComponent implements OnInit {
       var pos = (this.editor.getScrollInfo().height - this.editor.getScrollInfo().clientHeight) * ratio;
       this.editor.scrollTo(0, pos);
     }
-    this.editorTimeout = setTimeout(() => this.syncEditor = false, 25);
+    this.previewTimeout = setTimeout(() => this.syncEditor = false, 25);
   }
 
   /**

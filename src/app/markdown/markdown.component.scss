@@ -4,9 +4,9 @@
     font-size: 15px !important;
     font-style: normal;
     display: flex;
-    flex-direction: column;
+
     height: 100%;
-    overflow-y: scroll;
+
 }
 
 .fixed-container {
@@ -79,9 +79,11 @@ li.tl.tl-active {
 .codemirror {
     flex: 1 1;
     width: 50%;
+    height: 100%;
 }
 
 #preview {
+    overflow-y: scroll;
     background-color: #fafafa;
     flex: 1 1;
     width: 50%;
@@ -200,7 +202,7 @@ ul.H2,.H3,.H4,.H5,.H6 {
     width: 100%;
     position: fixed;
     bottom: 0;
-    z-index: 5;
+    z-index: 10;
 }
 
 .markdown-status {
@@ -241,7 +243,6 @@ ul.H2,.H3,.H4,.H5,.H6 {
         display: none;
     }
 
-    
     .html-status {
         float: left;
     }

@@ -23,8 +23,8 @@
 </div>
 <div class="custom-container">
   <div class="scroll">
-    <div class="codemirror" [ngClass]="{'hide': hideEditor===true}">
-      <ngx-codemirror #codeEditor [(ngModel)]="source_code" [options]="{
+    <div class="codemirror" [ngClass]="{'hide': hideEditor===true}" >
+      <ngx-codemirror (scroll)="scrollEditor()" #codeEditor [(ngModel)]="source_code" [options]="{
         extraKeys: extraKeys,
         autoFocus: true,
         lineNumbers: true,
@@ -36,7 +36,7 @@
         mode: 'markdown'}" [autoFocus]=true (change)="updatePreview()" (cursorActivity)="updatePreview()">
       </ngx-codemirror>
     </div>
-    <div [ngStyle]="{'display': display}" markdown emoji [data]="preview" class="markdown-body" id="preview"></div>
+    <div [ngStyle]="{'display': display}" (scroll)="scrollPreview()" markdown emoji [data]="preview" class="markdown-body" id="preview" #scrollTwo></div>
   </div>
   <div class="status">
     <div class="markdown-status" *ngIf="hideEditor === false">

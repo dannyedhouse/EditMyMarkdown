@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import { AppService, Emoji } from '../app.service';
@@ -44,6 +44,10 @@ export class MarkdownComponent implements OnInit {
   hideEditor: boolean = false;
   display: string = "display";
   isOnMobile: boolean = false;
+  leftTimeout: any;
+  rightTimeout: any;
+  syncEditor = false;
+  syncPreview = false;
 
   /**
    * Map keys to functions
@@ -60,7 +64,8 @@ export class MarkdownComponent implements OnInit {
     "Shift-Ctrl--": () => this.horizontal_rule(),
   }
 
-  constructor(private modalService: NgbModal, private service: AppService, private sanitizer: DomSanitizer, private cdRef: ChangeDetectorRef) {}
+  constructor(private modalService: NgbModal, private service: AppService, private sanitizer: DomSanitizer, private cdRef: ChangeDetectorRef,
+    private elRef: ElementRef) {}
 
   ngOnInit(): void {
     this.count = 1;
@@ -216,6 +221,44 @@ export class MarkdownComponent implements OnInit {
   getHTMLStats(): void {
     var doc = document.getElementById('preview').innerText;
     this.htmlWordCount = doc.trim().replace(/\s+/gi, ' ').split(' ').length;
+  }
+
+  /**
+   * Called each time the editor is scrolled, syncronises the scroll position of the preview div
+   */
+  scrollEditor() {
+    const previewDiv = this.elRef.nativeElement.querySelectorAll(".markdown-body");
+    const preview = previewDiv[0] as HTMLElement;
+
+    clearTimeout(this.leftTimeout);
+    if (!this.syncEditor) {
+      this.syncPreview = true;
+
+      var height = this.editor.getScrollInfo().height - this.editor.getScrollInfo().clientHeight;
+      var ratio  = parseFloat(this.editor.getScrollInfo().top) / height;
+      var pos = (preview.scrollHeight - preview.clientHeight) * ratio;
+      preview.scrollTop = pos;
+    }
+    this.leftTimeout = setTimeout(() => this.syncPreview = false, 25);
+  }
+
+  /**
+   * Called each time the preview is scrolled, syncronises the scroll position of the editor
+   */
+  scrollPreview() {
+    const previewDiv = this.elRef.nativeElement.querySelectorAll(".markdown-body");
+    const preview = previewDiv[0] as HTMLElement;
+
+    clearTimeout(this.rightTimeout);
+    if (!this.syncPreview) {
+      this.syncEditor = true;
+
+      var height = preview.scrollHeight - preview.clientHeight;
+      var ratio  = preview.scrollTop / height;
+      var pos = (this.editor.getScrollInfo().height - this.editor.getScrollInfo().clientHeight) * ratio;
+      this.editor.scrollTo(0, pos);
+    }
+    this.rightTimeout = setTimeout(() => this.syncEditor = false, 25);
   }
 
   /**

@@ -44,8 +44,8 @@ export class MarkdownComponent implements OnInit {
   hideEditor: boolean = false;
   display: string = "display";
   isOnMobile: boolean = false;
-  leftTimeout: any;
-  rightTimeout: any;
+  editorTimeout: any;
+  previewTimeout: any;
   syncEditor = false;
   syncPreview = false;
 
@@ -230,7 +230,7 @@ export class MarkdownComponent implements OnInit {
     const previewDiv = this.elRef.nativeElement.querySelectorAll(".markdown-body");
     const preview = previewDiv[0] as HTMLElement;
 
-    clearTimeout(this.leftTimeout);
+    clearTimeout(this.editorTimeout);
     if (!this.syncEditor) {
       this.syncPreview = true;
 
@@ -239,7 +239,7 @@ export class MarkdownComponent implements OnInit {
       var pos = (preview.scrollHeight - preview.clientHeight) * ratio;
       preview.scrollTop = pos;
     }
-    this.leftTimeout = setTimeout(() => this.syncPreview = false, 25);
+    this.editorTimeout = setTimeout(() => this.syncPreview = false, 25);
   }
 
   /**
@@ -249,7 +249,7 @@ export class MarkdownComponent implements OnInit {
     const previewDiv = this.elRef.nativeElement.querySelectorAll(".markdown-body");
     const preview = previewDiv[0] as HTMLElement;
 
-    clearTimeout(this.rightTimeout);
+    clearTimeout(this.editorTimeout);
     if (!this.syncPreview) {
       this.syncEditor = true;
 
@@ -258,7 +258,7 @@ export class MarkdownComponent implements OnInit {
       var pos = (this.editor.getScrollInfo().height - this.editor.getScrollInfo().clientHeight) * ratio;
       this.editor.scrollTo(0, pos);
     }
-    this.rightTimeout = setTimeout(() => this.syncEditor = false, 25);
+    this.editorTimeout = setTimeout(() => this.syncEditor = false, 25);
   }
 
   /**

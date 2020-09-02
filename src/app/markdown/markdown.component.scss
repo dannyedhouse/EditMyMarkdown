@@ -4,9 +4,7 @@
     font-size: 15px !important;
     font-style: normal;
     display: flex;
-
     height: 100%;
-
 }
 
 .fixed-container {
@@ -234,7 +232,7 @@ ul.H2,.H3,.H4,.H5,.H6 {
 
 @media (min-width: 991px) {
     .codemirror {
-        border-right: 2px solid #ddd;
+        border-right: 1px solid #ddd;
     }
 }
 

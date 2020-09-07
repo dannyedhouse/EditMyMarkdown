@@ -382,8 +382,12 @@ export class MarkdownComponent implements OnInit {
   }
 
   horizontal_rule(): void {
-    if (this.selection == "") {      
-      this.editor.replaceSelection("---\n");
+    if (this.selection == "") {
+      if (this.line.length !=0) {
+        this.editor.replaceSelection("\n---\n");
+      } else {
+        this.editor.replaceSelection("---\n");
+      } 
     } else {
       this.editor.replaceSelection("\n---\n");
     }
@@ -392,11 +396,12 @@ export class MarkdownComponent implements OnInit {
   heading(n: number): void {
     var hashtag = "#".repeat(n);
 
-    if (this.selection == "") {      
+    if (this.line.length ==0) { 
       this.editor.setCursor(this.cursor.line, this.cursor.ch+2);
-      this.editor.replaceSelection(hashtag + " H" + n.toString());
+      this.editor.replaceSelection(hashtag + " H" + n.toString()); 
     } else {
-      this.editor.replaceSelection(hashtag + " " + this.selection);
+      this.editor.setCursor(this.cursor.line, 0);
+      this.editor.replaceSelection(hashtag + " ");
     }
   }
 

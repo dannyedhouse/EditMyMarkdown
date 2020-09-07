@@ -230,6 +230,10 @@ ul.H2,.H3,.H4,.H5,.H6 {
     right: 0;    
 }
 
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #fafafa;
+}
+
 @media (min-width: 991px) {
     .codemirror {
         border-right: 1px solid #ddd;

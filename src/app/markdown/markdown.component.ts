@@ -4,7 +4,8 @@ import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import { AppService, Emoji } from '../app.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SecurityContext } from '@angular/core';
-import {ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+import { KatexOptions } from 'ngx-markdown';
 
 @Component({
   selector: 'app-markdown',
@@ -48,6 +49,11 @@ export class MarkdownComponent implements OnInit {
   previewTimeout: any;
   syncEditor = false;
   syncPreview = false;
+
+  public katexOptions: KatexOptions = {
+    throwOnError: false,
+    displayMode: true
+  };
 
   /**
    * Map keys to functions

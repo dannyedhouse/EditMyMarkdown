@@ -36,7 +36,7 @@
         mode: 'markdown'}" [autoFocus]=true (change)="updatePreview()" (cursorActivity)="updatePreview()">
       </ngx-codemirror>
     </div>
-    <div [ngStyle]="{'display': display}" (scroll)="scrollPreview()" markdown emoji [data]="preview" class="markdown-body" id="preview" #scrollTwo></div>
+    <div [ngStyle]="{'display': display}" (scroll)="scrollPreview()" markdown emoji katex [katexOptions]="katexOptions" [data]="preview" class="markdown-body" id="preview" #scrollTwo></div>
   </div>
   <div class="status">
     <div class="markdown-status" *ngIf="hideEditor === false">

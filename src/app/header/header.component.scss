@@ -3,6 +3,11 @@
     background-color: #34495e !important;
     color: #ecf0f1;
     font-family: 'Lato', sans-serif;
+    min-width: 320px;
+}
+
+.navbar .nav-link {
+    padding: 0.5rem 1rem !important;
 }
 
 #title {
@@ -13,10 +18,19 @@
     position: relative;
 }
 
+#github {
+    background-color: #243341;
+    border-radius: 3px;
+}
+
 @media (min-width: 992px) {
     .navbar {
         padding-left: 7%;
         padding-right: 7%;
+    }
+    
+    #github {
+        display: none;
     }
 }
 
@@ -26,5 +40,18 @@
         margin-right: -1rem;
         background-color: #34495e;
         width: 100%;
+        z-index: 5;
+    }
+}
+
+@media (max-width: 360px) {
+    #title {
+        font-size: 1.5rem;
+    }
+
+    #logo {
+        width: 20px;
+        height: 20px;
+        margin-top: -10px !important;
     }
 }

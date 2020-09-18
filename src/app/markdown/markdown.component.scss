@@ -1,6 +1,29 @@
 .custom-container {
     background-color: white;
     margin: 0 auto;
+    font-size: 15px !important;
+    font-style: normal;
+    display: flex;
+    height: 100%;
+}
+
+.fixed-container {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 5;
+} 
+
+.fixed-container + * { 
+    padding-top: 120px;
+}
+
+.scroll {
+    flex: 1;
+    display: flex;
+    padding-bottom: 20px;
+    width: 50%;
 }
 
 .toolbar {
@@ -9,6 +32,7 @@
     padding-bottom: 10px;
     background-color: #222;
     display: block;
+    z-index: 5;
     color: #b9b9b9;
 }
 
@@ -26,6 +50,11 @@
     display: inline-block;
 }
 
+.toolbar-actions.disabled li {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
 li.ul.ul-active {
     background-color: #424242;
     color: white;
@@ -36,26 +65,35 @@ li.ol.ol-active {
     color: white;
 }
 
+li.tl.tl-active {
+    background-color: #424242;
+    color: white;
+}
+
 .toolbar li:hover {
     color: white;
     background-color: #424242;
 }
 
 .codemirror {
-    float: left;
-    overflow-y: scroll;
+    flex: 1 1;
     width: 50%;
-    height: 100% !important;
+    height: 100%;
 }
 
-.preview {
-    float: right;
+#preview {
+    overflow-y: scroll;
+    background-color: #fafafa;
+    flex: 1 1;
     width: 50%;
     padding: 10px;
+    font-size: 15px;
+    word-wrap: break-word !important;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .divider {
-    border-right: 1px solid #b9b9b9;
+    border-right: 1px solid #3e3e3e;
     height: 100%;
     margin: 0 -5px 0px 10px;
 }
@@ -133,12 +171,105 @@ ul.H2,.H3,.H4,.H5,.H6 {
     padding-inline-start: 5px !important;
 }
 
-@media (max-width: 660px) {
+#insertBtn:disabled {
+    cursor: not-allowed;
+}
+
+.tab-content {
+    padding-top: 20px;
+}
+
+#shortcutTable {
+    margin-top: -10px;
+    margin-bottom: 0;
+}
+
+#shortcutTable thead th {
+    padding-left: 0.25rem;
+    border-top: 0;
+}
+
+#shortcutTable td {
+    padding: 0.2rem;
+}
+
+.status {
+    padding: 0.1rem;
+    background-color: #007acc;
+    color: #fff;
+    font-size: 13px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+}
+
+.markdown-status {
+    margin: 0 10px;
+    float: left;
+}
+
+.html-status {
+    margin: 0 10px;
+    float: right;
+}
+
+.value {
+    font-weight: 600;
+    margin-left: 12px;
+}
+
+.codemirror.hide {
+    display: none;
+}
+
+.mobile-button {
+    border-radius: 50%;;
+    background-color: grey;
+    float: right;
+    position: absolute;
+    right: 0;    
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #fafafa;
+}
+
+@media (min-width: 991px) {
     .codemirror {
-        width: 100%;
+        border-right: 1px solid #ddd;
     }
-    
-    .preview {
+}
+
+@media (max-width: 991px) {
+    .github-corner {
         display: none;
+    }
+
+    .html-status {
+        float: left;
+    }
+}
+
+@media (max-width: 898px) {
+    .fixed-container + * {
+        padding-top: 150px;
+    }
+}
+
+@media (max-width: 455px) {
+    .fixed-container + * {
+        padding-top: 180px;
+    }
+}
+
+@media (max-width: 319px) {
+    .toolbar .toolbar-actions {
+        display: inline-flex !important;
+        overflow-x: scroll;
+    }
+
+    .fixed-container + * {
+        padding-top: 160px;
     }
 }

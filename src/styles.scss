@@ -1,15 +1,18 @@
-@import '~bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-@import '~codemirror/lib/codemirror';
-@import '~codemirror/theme/material';
+@import '~bootstrap/scss/bootstrap';
+@import '~github-markdown-css/github-markdown.css';
+@import '~codemirror/lib/codemirror.css';
+@import '~codemirror/theme/idea.css';
+@import '~codemirror/addon/fold/foldgutter.css';
 
-body {
-    background-color: #f8f8f8;
+html, body{
+    height: 100%;
+    overflow: hidden;
 }
 
 .codemirror .CodeMirror {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-style: normal;
 }
 
@@ -26,25 +29,41 @@ body {
     max-height: 75% !important;
 }
 
-.modal #emoji-body {
+.lg-modal #emoji-body {
     padding-top: 0px;
 }
 
 ::-webkit-scrollbar {
     height: 10px;
-    width: 7px;
+    width: 10px;
     background-color: rgba(0,0,0,.1);
 }
 
 ::-webkit-scrollbar-thumb {
     border-radius: 3px;
     min-height: 40px;
-    background-color: #bbb;
+    background-color: rgba(0,0,0,.3);
 }
 
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+    margin-top: 0;
+}
+
+.markdown-body code {
+    border: 1px solid #ddd;
+    color: #999;
+    font-size: 14px;
+}
+
+.CodeMirror-linenumber {
+    font-family: 'Consolas', sans-serif;
+    font-size: 13px;
+    line-height: 1.9;
+    width: 20px !important;
+}
 
 @media (min-width: 576px) { 
-    .modal .modal-dialog {
+    .lg-modal .modal-dialog {
         max-width: 650px;
         height: 50%;
     }

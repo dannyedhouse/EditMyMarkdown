@@ -1,5 +1,5 @@
 {
-  "name": "formatter-tools",
+  "name": "edit-my-markdown",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -24,10 +24,11 @@
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "bootstrap": "^4.5.0",
     "codemirror": "^5.55.0",
+    "github-markdown-css": "^4.0.0",
     "jquery": "^3.5.1",
     "ngx-markdown": "^10.0.0",
     "rxjs": "~6.5.5",
-    "tslib": "^2.0.0",
+    "tslib": "^2.0.1",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "lite-server": "^2.5.4",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",

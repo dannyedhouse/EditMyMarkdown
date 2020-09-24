@@ -132,8 +132,13 @@
               "devServerTarget": "edit-my-markdown:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "edit-my-markdown"
 }

@@ -29,7 +29,10 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/katex/dist/katex.min.css"
+              "node_modules/katex/dist/katex.min.css",
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/theme/idea.css",
+              "node_modules/codemirror/addon/fold/foldgutter.css"
             ],
             "scripts": [
               "node_modules/emoji-toolkit/lib/js/joypixels.min.js",

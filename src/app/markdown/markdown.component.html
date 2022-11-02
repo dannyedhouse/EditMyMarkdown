@@ -25,6 +25,7 @@
   <div class="scroll">
     <div class="codemirror" [ngClass]="{'hide': hideEditor===true}" >
       <ngx-codemirror (scroll)="scrollEditor()" #codeEditor [(ngModel)]="source_code" [options]="{
+        autoRefresh: true,
         extraKeys: extraKeys,
         autoFocus: true,
         lineNumbers: true,

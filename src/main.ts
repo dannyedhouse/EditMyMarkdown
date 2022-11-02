@@ -6,6 +6,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/markdown-fold';
+import 'codemirror/addon/display/autorefresh';
 
 if (environment.production) {
   enableProdMode();

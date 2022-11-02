@@ -29,13 +29,16 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/katex/dist/katex.min.css"
+              "node_modules/katex/dist/katex.min.css",
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/theme/idea.css",
+              "node_modules/codemirror/addon/fold/foldgutter.css"
             ],
             "scripts": [
               "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/marked/lib/marked.js",
+              "node_modules/marked/lib/marked.cjs",
               "node_modules/katex/dist/katex.min.js"
             ]
           },
@@ -132,8 +135,13 @@
               "devServerTarget": "edit-my-markdown:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "edit-my-markdown"
 }

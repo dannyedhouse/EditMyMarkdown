@@ -519,8 +519,14 @@ export class MarkdownComponent implements OnInit {
     }
   }
 
-  source_code = "# Welcome to EditMyMarkdown\n\n1. Click me and edit the markdown.\n2. See rendered HTML!\n----\nReference:"
-    +"\n# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n\n**strong**\n*emphasis*"
+  source_code = "# Welcome to EditMyMarkdown\n\n<p>A simple open source online markdown editor with live HTML preview, "
+  +"developed using Angular based on CodeMirror and ngx-markdown.</p>\n\n - Type Markdown on the left, see it rendered on the right!"
+  +"\n\n----\n\n## Features:\n"
+  +"- Toolbar supporting various markdown syntax, including a full GitHub emoji selector. :computer:\n"
+  +"- Supports GFM (GitHub-Flavoured Markdown) with features such as task lists and emoji. :pencil:\n"
+  +"- Supports use of TeX math rendering through KaTeX. :book:\n"
+  +"- Mobile friendly (use the little eye icon to toggle between the editor and live editor). :mobile_phone_off:\n"
+  +"- Live word and line count. :1234:"    
 }
 
 export interface tools {

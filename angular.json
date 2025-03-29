@@ -143,5 +143,8 @@
       }
     }
   },
-  "defaultProject": "edit-my-markdown"
+  "defaultProject": "edit-my-markdown",
+  "cli": {
+    "analytics": false
+  }
 }

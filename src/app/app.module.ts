@@ -34,6 +34,7 @@ import { AppService } from './app.service';
           gfm: true,
           breaks: true,
           pedantic: false,
+          sanitize: true,
           smartLists: false,
           smartyPants: false,
         },
